@@ -13,3 +13,4 @@ Can store a list of Recipes with the list of Ingredients and Notes. Configured r
 - **Spring Boot**. Spring initializr to set up dependencies for Maven in the project and the Embed Tomcat webserver to run the application.
 - **Spring Data JPA**. Java classes were declared with *@Entity* annotations to map them to database tables. In-memory H2 Database to store the data. CrudRepository class was used to interact with the database.
 - **Spring Web**. Spring MVC to implement a widespread MVC model. Spring Model class for the Model component. Simple HTML and CSS with Thymeleaf natural templates were used for the View component. Annotations *@Controller* and *@RequestMapping* were applied for the Controller component to show Spring how to get the data.
+- **Lombok**. To reduce boilerplate code
