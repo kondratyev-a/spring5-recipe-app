@@ -2,7 +2,7 @@
 Can store a list of Recipes with the list of Ingredients and Notes. Configured relations between tables (one to one, one to many, many to many). The application was created to learn and demonstrate the functionality of the Spring 5 Framework and Hibernate as part of the course [Spring Framework 5: Beginner to Guru](https://www.udemy.com/course/spring-framework-5-beginner-to-guru/)
 
 [Run the application](https://spring5-recipes.herokuapp.com/)  
-[![kondratyev-a](https://circleci.com/gh/kondratyev-a/spring5-recipe-app/tree/circleci-project-setup.svg?style=shield)](https://circleci.com/gh/kondratyev-a/spring5-recipe-app/?branch=circleci-project-setup)
+[![kondratyev-a](https://circleci.com/gh/kondratyev-a/spring5-recipe-app.svg?style=shield)](https://circleci.com/gh/kondratyev-a/spring5-recipe-app)
 
 ## Application features
 - Store lists of Recipes, Ingredients, and Notes in the database
