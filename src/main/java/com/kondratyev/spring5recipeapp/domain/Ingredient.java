@@ -39,4 +39,7 @@ public class Ingredient {
         this.recipe = recipe;
     }
 
+    public BigDecimal getAmount() {
+        return amount.stripTrailingZeros();
+    }
 }
