@@ -40,6 +40,6 @@ public class Ingredient {
     }
 
     public BigDecimal getAmount() {
-        return amount.stripTrailingZeros();
+           return (amount == null ? null : amount.stripTrailingZeros());
     }
 }
