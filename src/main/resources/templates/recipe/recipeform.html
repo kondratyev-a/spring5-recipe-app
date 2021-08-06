@@ -109,7 +109,7 @@
                                 <h4 class="card-title">Ingredients</h4>
                             </div>
                             <div class="col-md-2">
-                                <a class="btn btn-outline-light float-end" href="#" role="button">Edit</a>
+                                <a class="btn btn-outline-light float-end" href="#" th:href="@{'/recipe/' + ${recipe.id} + '/ingredients'}" role="button">View</a>
                             </div>
                         </div>
                     </div>
