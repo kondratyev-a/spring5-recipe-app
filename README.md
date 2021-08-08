@@ -9,7 +9,7 @@ Can store a list of Recipes with the list of Ingredients and Notes. Configured r
 ## Application features
 - Store lists of Recipes, Ingredients, and Notes in the database
 - Display this data in a browser
-- Ability to run the application in any environment
+- Ability to run the application in any environment  
 
 ![Application screenshot](images/recipes.png)
 
