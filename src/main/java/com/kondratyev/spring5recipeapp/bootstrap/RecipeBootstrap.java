@@ -10,7 +10,10 @@ import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.File;
+import java.io.IOException;
 import java.math.BigDecimal;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -147,6 +150,9 @@ public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEven
         guacRecipe.setServings(4);
         guacRecipe.setSource("Simply Recipes");
 
+        Byte[] guacImage = getFileData("src/main/resources/static/images/guacamole400x400.jpg");
+        guacRecipe.setImage(guacImage);
+
         //add to return list
         recipes.add(guacRecipe);
 
@@ -209,7 +215,32 @@ public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEven
         tacosRecipe.setServings(4);
         tacosRecipe.setSource("Simply Recipes");
 
+        Byte[] tacoImage = getFileData("src/main/resources/static/images/tacos400x400.jpg");
+        tacosRecipe.setImage(tacoImage);
+
         recipes.add(tacosRecipe);
         return recipes;
+    }
+
+    private Byte[] getFileData(String pathToFile) {
+        try {
+            File guacFile = new File(pathToFile);
+            byte[] fileContent = Files.readAllBytes(guacFile.toPath());
+
+            Byte[] byteObjects = new Byte[fileContent.length];
+
+            int i = 0;
+            for (byte b : fileContent) {
+                byteObjects[i++] = b;
+            }
+
+            return byteObjects;
+
+        } catch (IOException e) {
+            //todo handle better
+            log.error("Error occurred", e);
+            e.printStackTrace();
+            return null;
+        }
     }
 }
