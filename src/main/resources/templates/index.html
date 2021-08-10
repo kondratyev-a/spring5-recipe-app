@@ -31,26 +31,22 @@
                                 <th class="col-1">ID</th>
                                 <th class="col-8">Description</th>
                                 <th class="col-1">View</th>
-                                <th class="col-1">Delete</th>
                             </tr>
                             </thead>
                             <tr th:remove="all">
                                 <td>1234</td>
                                 <td>Tasty Goodnees 1</td>
                                 <td><a href="#">View</a></td>
-                                <td><a href="#">Delete</a></td>
                             </tr>
                             <tr th:remove="all">
                                 <td>1562</td>
                                 <td>Tasty Goodnees 2</td>
                                 <td><a href="#">View</a></td>
-                                <td><a href="#">Delete</a></td>
                             </tr>
                             <tr th:each="recipe : ${recipes}">
                                 <td th:text="${recipe.id}">1769</td>
                                 <td th:text="${recipe.description}">Tasty Goodnees 3</td>
                                 <td><a href="#" th:href="@{'/recipe/' + ${recipe.id} + '/show'}">View</a></td>
-                                <td><a href="#" th:href="@{'/recipe/' + ${recipe.id} + '/delete'}">Delete</a></td>
                             </tr>
                         </table>
                     </div>
