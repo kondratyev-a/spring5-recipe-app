@@ -24,7 +24,7 @@
                 <input type="hidden" th:field="*{image}">
                 <div class="card border border-info mt-3">
                     <div class="card-header text-light bg-info">
-                        <h4 class="card-title">Edit Recipe</h4>
+                        <h3 class="card-title">Edit Recipe</h3>
                     </div>
                     <div class="card-body">
                         <div class="form-group row mb-2">
@@ -104,6 +104,10 @@
                                 <img src="../../static/images/sample400x400.png"
                                      th:src="@{'/recipe/' + ${recipe.id} + '/recipeimage'}"
                                      width="250" height="250">
+                                <div class="text-center me-4">
+                                    <a class="btn btn-outline-info" href="#"
+                                       th:href="@{'/recipe/' + ${recipe.id} + '/image'}" role="button">Change Image</a>
+                                </div>
                             </div>
                         </div>
                     </div>

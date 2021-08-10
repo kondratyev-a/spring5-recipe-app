@@ -40,7 +40,7 @@ public class ImageController {
 
         imageService.saveImageFile(Long.valueOf(id), file);
 
-        return "redirect:/recipe/" + id + "/show";
+        return "redirect:/recipe/" + id + "/update";
     }
 
     @GetMapping("recipe/{id}/recipeimage")
