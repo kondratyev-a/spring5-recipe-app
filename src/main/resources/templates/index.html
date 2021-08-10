@@ -28,25 +28,23 @@
                         <table class="table table-hover ">
                             <thead class="thead-inverse">
                             <tr>
-                                <th class="col-1">ID</th>
-                                <th class="col-8">Description</th>
-                                <th class="col-1">View</th>
+                                <th>ID</th>
+                                <th>Description</th>
                             </tr>
                             </thead>
                             <tr th:remove="all">
                                 <td>1234</td>
-                                <td>Tasty Goodnees 1</td>
-                                <td><a href="#">View</a></td>
+                                <td><a href="#">Tasty Goodnees 1</a></td>
                             </tr>
                             <tr th:remove="all">
                                 <td>1562</td>
-                                <td>Tasty Goodnees 2</td>
-                                <td><a href="#">View</a></td>
+                                <td><a href="#">Tasty Goodnees 2</a></td>
                             </tr>
                             <tr th:each="recipe : ${recipes}">
                                 <td th:text="${recipe.id}">1769</td>
-                                <td th:text="${recipe.description}">Tasty Goodnees 3</td>
-                                <td><a href="#" th:href="@{'/recipe/' + ${recipe.id} + '/show'}">View</a></td>
+                                <td><a id="url" href="https://www.example.com" th:href="@{'/recipe/' + ${recipe.id} + '/show'}"
+                                ><span th:text="${recipe.description}">Tasty Goodnees 3</span></a></td>
+
                             </tr>
                         </table>
                     </div>
