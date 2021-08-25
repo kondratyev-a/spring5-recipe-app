@@ -4,6 +4,7 @@ import com.kondratyev.spring5recipeapp.commands.RecipeCommand;
 import com.kondratyev.spring5recipeapp.converters.RecipeCommandToRecipe;
 import com.kondratyev.spring5recipeapp.converters.RecipeToRecipeCommand;
 import com.kondratyev.spring5recipeapp.domain.Recipe;
+import com.kondratyev.spring5recipeapp.exceptions.NotFoundException;
 import com.kondratyev.spring5recipeapp.repositories.RecipeRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,6 +16,7 @@ import java.util.Optional;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.util.AssertionErrors.assertNotNull;
 
@@ -53,6 +55,20 @@ public class RecipeServiceImplTest {
         verify(recipeRepository, never()).findAll();
     }
 
+    @Test()
+    public void getRecipeByIdTestNotFound() {
+
+        Optional<Recipe> recipeOptional = Optional.empty();
+
+        when(recipeRepository.findById(anyLong())).thenReturn(recipeOptional);
+
+        NotFoundException thrown = assertThrows(NotFoundException.class,
+                        () -> recipeService.findById(1L),
+                        "Expected exception to throw an error. But it didn't");
+
+        assertEquals("Recipe Not Found", thrown.getMessage());
+    }
+
     @Test
     public void getRecipeCommandByIdTest() {
         Recipe recipe = new Recipe();
@@ -77,11 +93,11 @@ public class RecipeServiceImplTest {
     public void getRecipesTest() {
 
         Recipe recipe = new Recipe();
-        HashSet<Recipe> receipesData = new HashSet<>();
-        receipesData.add(recipe);
+        HashSet<Recipe> recipesData = new HashSet<>();
+        recipesData.add(recipe);
 
-        //when(recipeService.getRecipes()).thenReturn(receipesData);
-        when(recipeRepository.findAll()).thenReturn(receipesData);
+        //when(recipeService.getRecipes()).thenReturn(recipesData);
+        when(recipeRepository.findAll()).thenReturn(recipesData);
 
         Set<Recipe> recipes = recipeService.getRecipes();
 
