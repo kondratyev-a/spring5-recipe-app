@@ -66,7 +66,7 @@ public class RecipeServiceImplTest {
                         () -> recipeService.findById(1L),
                         "Expected exception to throw an error. But it didn't");
 
-        assertEquals("Recipe Not Found", thrown.getMessage());
+        assertEquals("Can't find Recipe with id: 1", thrown.getMessage());
     }
 
     @Test
