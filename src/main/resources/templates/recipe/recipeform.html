@@ -22,7 +22,7 @@
             <form th:object="${recipe}" th:action="@{/recipe/}" method="post">
 
                 <div th:if="${#fields.hasErrors('*')}" class="alert alert-danger mt-3">
-                    <p class="mb-0">Please Correct Errors Below</p>
+                    <p class="mb-0">Please correct errors below</p>
                 </div>
 
                 <input type="hidden" th:field="*{id}"/>
