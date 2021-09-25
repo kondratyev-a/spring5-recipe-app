@@ -2,11 +2,15 @@ package com.kondratyev.spring5recipeapp.converters;
 
 import com.kondratyev.spring5recipeapp.commands.RecipeCommand;
 import com.kondratyev.spring5recipeapp.domain.*;
-import org.junit.jupiter.api.BeforeEach;
+import com.kondratyev.spring5recipeapp.mappers.*;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@SpringBootTest(classes = {RecipeMapperImpl.class, CategoryMapperImpl.class,
+        IngredientMapperImpl.class, NotesMapperImpl.class, UnitOfMeasureMapperImpl.class})
 public class RecipeToRecipeCommandTest {
 
     public static final Long RECIPE_ID = 1L;
@@ -23,24 +27,18 @@ public class RecipeToRecipeCommandTest {
     public static final Long INGRED_ID_1 = 3L;
     public static final Long INGRED_ID_2 = 4L;
     public static final Long NOTES_ID = 9L;
-    RecipeToRecipeCommand converter;
 
-    @BeforeEach
-    public void setUp() throws Exception {
-        converter = new RecipeToRecipeCommand(
-                new CategoryToCategoryCommand(),
-                new IngredientToIngredientCommand(new UnitOfMeasureToUnitOfMeasureCommand()),
-                new NotesToNotesCommand());
-    }
+    @Autowired
+    private RecipeMapper recipeMapper;
 
     @Test
     public void testNullObject() {
-        assertNull(converter.convert(null));
+        assertNull(recipeMapper.recipeToRecipeCommand(null));
     }
 
     @Test
     public void testEmptyObject() {
-        assertNotNull(converter.convert(new Recipe()));
+        assertNotNull(recipeMapper.recipeToRecipeCommand(new Recipe()));
     }
 
     @Test
@@ -81,7 +79,7 @@ public class RecipeToRecipeCommandTest {
         recipe.getIngredients().add(ingredient2);
 
         //when
-        RecipeCommand command = converter.convert(recipe);
+        RecipeCommand command = recipeMapper.recipeToRecipeCommand(recipe);
 
         //then
         assertNotNull(command);

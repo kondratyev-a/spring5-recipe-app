@@ -1,10 +1,9 @@
 package com.kondratyev.spring5recipeapp.services;
 
 import com.kondratyev.spring5recipeapp.commands.IngredientCommand;
-import com.kondratyev.spring5recipeapp.converters.IngredientCommandToIngredient;
-import com.kondratyev.spring5recipeapp.converters.IngredientToIngredientCommand;
 import com.kondratyev.spring5recipeapp.domain.Ingredient;
 import com.kondratyev.spring5recipeapp.domain.Recipe;
+import com.kondratyev.spring5recipeapp.mappers.IngredientMapper;
 import com.kondratyev.spring5recipeapp.repositories.RecipeRepository;
 import com.kondratyev.spring5recipeapp.repositories.UnitOfMeasureRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -17,16 +16,13 @@ import java.util.Optional;
 @Service
 public class IngredientServiceImpl implements IngredientService {
 
-    private final IngredientToIngredientCommand ingredientToIngredientCommand;
-    private final IngredientCommandToIngredient ingredientCommandToIngredient;
+    private final IngredientMapper ingredientMapper;
     private final RecipeRepository recipeRepository;
     private final UnitOfMeasureRepository unitOfMeasureRepository;
 
-    public IngredientServiceImpl(IngredientToIngredientCommand ingredientToIngredientCommand,
-                                 IngredientCommandToIngredient ingredientCommandToIngredient,
+    public IngredientServiceImpl(IngredientMapper ingredientMapper,
                                  RecipeRepository recipeRepository, UnitOfMeasureRepository unitOfMeasureRepository) {
-        this.ingredientToIngredientCommand = ingredientToIngredientCommand;
-        this.ingredientCommandToIngredient = ingredientCommandToIngredient;
+        this.ingredientMapper = ingredientMapper;
         this.recipeRepository = recipeRepository;
         this.unitOfMeasureRepository = unitOfMeasureRepository;
     }
@@ -45,7 +41,7 @@ public class IngredientServiceImpl implements IngredientService {
 
         Optional<IngredientCommand> ingredientCommandOptional = recipe.getIngredients().stream()
                 .filter(ingredient -> ingredient.getId().equals(ingredientId))
-                .map( ingredient -> ingredientToIngredientCommand.convert(ingredient)).findFirst();
+                .map(ingredientMapper::ingredientToIngredientCommand).findFirst();
 
         if(ingredientCommandOptional.isEmpty()){
             //todo impl error handling
@@ -112,7 +108,7 @@ public class IngredientServiceImpl implements IngredientService {
                         .orElseThrow(() -> new RuntimeException("UOM NOT FOUND"))); //todo address this
             } else {
                 //add new Ingredient
-                Ingredient ingredient = ingredientCommandToIngredient.convert(command);
+                Ingredient ingredient = ingredientMapper.ingredientCommandToIngredient(command);
                 ingredient.setRecipe(recipe);
                 recipe.addIngredient(ingredient);
             }
@@ -134,7 +130,7 @@ public class IngredientServiceImpl implements IngredientService {
             }
 
             //to do check for fail
-            return ingredientToIngredientCommand.convert(savedIngredientOptional.get());
+            return ingredientMapper.ingredientToIngredientCommand(savedIngredientOptional.get());
         }
 
     }

@@ -1,10 +1,9 @@
 package com.kondratyev.spring5recipeapp.services;
 
 import com.kondratyev.spring5recipeapp.commands.RecipeCommand;
-import com.kondratyev.spring5recipeapp.converters.RecipeCommandToRecipe;
-import com.kondratyev.spring5recipeapp.converters.RecipeToRecipeCommand;
 import com.kondratyev.spring5recipeapp.domain.Recipe;
 import com.kondratyev.spring5recipeapp.exceptions.NotFoundException;
+import com.kondratyev.spring5recipeapp.mappers.RecipeMapper;
 import com.kondratyev.spring5recipeapp.repositories.RecipeRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -19,13 +18,11 @@ import java.util.Set;
 public class RecipeServiceImpl implements RecipeService {
 
     private final RecipeRepository recipeRepository;
-    private final RecipeCommandToRecipe recipeCommandToRecipe;
-    private final RecipeToRecipeCommand recipeToRecipeCommand;
+    private final RecipeMapper recipeMapper;
 
-    public RecipeServiceImpl(RecipeRepository recipeRepository, RecipeCommandToRecipe recipeCommandToRecipe, RecipeToRecipeCommand recipeToRecipeCommand) {
+    public RecipeServiceImpl(RecipeRepository recipeRepository, RecipeMapper recipeMapper) {
         this.recipeRepository = recipeRepository;
-        this.recipeCommandToRecipe = recipeCommandToRecipe;
-        this.recipeToRecipeCommand = recipeToRecipeCommand;
+        this.recipeMapper = recipeMapper;
     }
 
     @Override
@@ -50,17 +47,17 @@ public class RecipeServiceImpl implements RecipeService {
     @Override
     @Transactional
     public RecipeCommand findCommandById(Long id) {
-        return recipeToRecipeCommand.convert(findById(id));
+        return recipeMapper.recipeToRecipeCommand(findById(id));
     }
 
     @Override
     @Transactional
     public RecipeCommand saveRecipeCommand(RecipeCommand command) {
-        Recipe detachedRecipe = recipeCommandToRecipe.convert(command);
+        Recipe detachedRecipe = recipeMapper.recipeCommandToRecipe(command);
 
         Recipe savedRecipe = recipeRepository.save(detachedRecipe);
         log.debug("Saved RecipeId: " + savedRecipe.getId());
-        return recipeToRecipeCommand.convert(savedRecipe);
+        return recipeMapper.recipeToRecipeCommand(savedRecipe);
     }
 
     @Override

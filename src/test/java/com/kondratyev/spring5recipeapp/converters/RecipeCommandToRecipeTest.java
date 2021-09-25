@@ -6,11 +6,15 @@ import com.kondratyev.spring5recipeapp.commands.NotesCommand;
 import com.kondratyev.spring5recipeapp.commands.RecipeCommand;
 import com.kondratyev.spring5recipeapp.domain.Difficulty;
 import com.kondratyev.spring5recipeapp.domain.Recipe;
-import org.junit.jupiter.api.BeforeEach;
+import com.kondratyev.spring5recipeapp.mappers.*;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@SpringBootTest(classes = {RecipeMapperImpl.class, IngredientMapperImpl.class, CategoryMapperImpl.class,
+        NotesMapperImpl.class, UnitOfMeasureMapperImpl.class})
 public class RecipeCommandToRecipeTest {
     public static final Long RECIPE_ID = 1L;
     public static final Integer COOK_TIME = Integer.valueOf("5");
@@ -27,24 +31,17 @@ public class RecipeCommandToRecipeTest {
     public static final Long INGRED_ID_2 = 4L;
     public static final Long NOTES_ID = 9L;
 
-    RecipeCommandToRecipe converter;
-
-
-    @BeforeEach
-    public void setUp() throws Exception {
-        converter = new RecipeCommandToRecipe(new CategoryCommandToCategory(),
-                new IngredientCommandToIngredient(new UnitOfMeasureCommandToUnitOfMeasure()),
-                new NotesCommandToNotes());
-    }
+    @Autowired
+    private RecipeMapper recipeMapper;
 
     @Test
     public void testNullObject() {
-        assertNull(converter.convert(null));
+        assertNull(recipeMapper.recipeCommandToRecipe(null));
     }
 
     @Test
     public void testEmptyObject() {
-        assertNotNull(converter.convert(new RecipeCommand()));
+        assertNotNull(recipeMapper.recipeCommandToRecipe(new RecipeCommand()));
     }
 
     @Test
@@ -85,7 +82,7 @@ public class RecipeCommandToRecipeTest {
         recipeCommand.getIngredients().add(ingredient2);
 
         //when
-        Recipe recipe  = converter.convert(recipeCommand);
+        Recipe recipe = recipeMapper.recipeCommandToRecipe(recipeCommand);
 
         assertNotNull(recipe);
         assertEquals(RECIPE_ID, recipe.getId());

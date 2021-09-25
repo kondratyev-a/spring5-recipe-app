@@ -1,7 +1,7 @@
 package com.kondratyev.spring5recipeapp.services;
 
 import com.kondratyev.spring5recipeapp.commands.UnitOfMeasureCommand;
-import com.kondratyev.spring5recipeapp.converters.UnitOfMeasureToUnitOfMeasureCommand;
+import com.kondratyev.spring5recipeapp.mappers.UnitOfMeasureMapper;
 import com.kondratyev.spring5recipeapp.repositories.UnitOfMeasureRepository;
 import org.springframework.stereotype.Service;
 
@@ -13,11 +13,12 @@ import java.util.stream.StreamSupport;
 public class UnitOfMeasureServiceImpl implements UnitOfMeasureService {
 
     private final UnitOfMeasureRepository unitOfMeasureRepository;
-    private final UnitOfMeasureToUnitOfMeasureCommand unitOfMeasureToUnitOfMeasureCommand;
+    private final UnitOfMeasureMapper unitOfMeasureMapper;
 
-    public UnitOfMeasureServiceImpl(UnitOfMeasureRepository unitOfMeasureRepository, UnitOfMeasureToUnitOfMeasureCommand unitOfMeasureToUnitOfMeasureCommand) {
+    public UnitOfMeasureServiceImpl(UnitOfMeasureRepository unitOfMeasureRepository,
+                                    UnitOfMeasureMapper unitOfMeasureMapper) {
         this.unitOfMeasureRepository = unitOfMeasureRepository;
-        this.unitOfMeasureToUnitOfMeasureCommand = unitOfMeasureToUnitOfMeasureCommand;
+        this.unitOfMeasureMapper = unitOfMeasureMapper;
     }
 
     @Override
@@ -25,7 +26,7 @@ public class UnitOfMeasureServiceImpl implements UnitOfMeasureService {
 
         return StreamSupport.stream(unitOfMeasureRepository.findAll()
                 .spliterator(), false)
-                .map(unitOfMeasureToUnitOfMeasureCommand::convert)
+                .map(unitOfMeasureMapper::unitOfMeasureToUnitOfMeasureCommand)
                 .collect(Collectors.toSet());
     }
 }

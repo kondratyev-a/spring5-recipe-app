@@ -1,11 +1,12 @@
 package com.kondratyev.spring5recipeapp.services;
 
 import com.kondratyev.spring5recipeapp.commands.UnitOfMeasureCommand;
-import com.kondratyev.spring5recipeapp.converters.UnitOfMeasureToUnitOfMeasureCommand;
 import com.kondratyev.spring5recipeapp.domain.UnitOfMeasure;
+import com.kondratyev.spring5recipeapp.mappers.UnitOfMeasureMapper;
 import com.kondratyev.spring5recipeapp.repositories.UnitOfMeasureRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mapstruct.factory.Mappers;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
@@ -17,17 +18,16 @@ import static org.mockito.Mockito.*;
 
 public class UnitOfMeasureServiceImplTest {
 
-    UnitOfMeasureToUnitOfMeasureCommand unitOfMeasureToUnitOfMeasureCommand = new UnitOfMeasureToUnitOfMeasureCommand();
     UnitOfMeasureService service;
 
     @Mock
     UnitOfMeasureRepository unitOfMeasureRepository;
 
     @BeforeEach
-    public void setUp() throws Exception {
+    public void setUp() {
         MockitoAnnotations.openMocks(this);
 
-        service = new UnitOfMeasureServiceImpl(unitOfMeasureRepository, unitOfMeasureToUnitOfMeasureCommand);
+        service = new UnitOfMeasureServiceImpl(unitOfMeasureRepository, Mappers.getMapper(UnitOfMeasureMapper.class));
     }
 
     @Test

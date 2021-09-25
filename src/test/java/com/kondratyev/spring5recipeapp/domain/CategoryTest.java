@@ -3,7 +3,7 @@ package com.kondratyev.spring5recipeapp.domain;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class CategoryTest {
 
@@ -19,13 +19,5 @@ class CategoryTest {
         Long idValue = 4L;
         category.setId(idValue);
         assertEquals(idValue, category.getId());
-    }
-
-    @Test
-    void getDescription() {
-    }
-
-    @Test
-    void getRecipes() {
     }
 }

@@ -1,10 +1,9 @@
 package com.kondratyev.spring5recipeapp.services;
 
 import com.kondratyev.spring5recipeapp.commands.RecipeCommand;
-import com.kondratyev.spring5recipeapp.converters.RecipeCommandToRecipe;
-import com.kondratyev.spring5recipeapp.converters.RecipeToRecipeCommand;
 import com.kondratyev.spring5recipeapp.domain.Recipe;
 import com.kondratyev.spring5recipeapp.exceptions.NotFoundException;
+import com.kondratyev.spring5recipeapp.mappers.RecipeMapper;
 import com.kondratyev.spring5recipeapp.repositories.RecipeRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -28,16 +27,13 @@ public class RecipeServiceImplTest {
     RecipeRepository recipeRepository;
 
     @Mock
-    RecipeToRecipeCommand recipeToRecipeCommand;
-
-    @Mock
-    RecipeCommandToRecipe recipeCommandToRecipe;
+    RecipeMapper recipeMapper;
 
     @BeforeEach
-    public void setUp() throws Exception {
+    public void setUp() {
         MockitoAnnotations.openMocks(this);
 
-        recipeService = new RecipeServiceImpl(recipeRepository, recipeCommandToRecipe, recipeToRecipeCommand);
+        recipeService = new RecipeServiceImpl(recipeRepository, recipeMapper);
     }
 
     @Test
@@ -80,7 +76,7 @@ public class RecipeServiceImplTest {
         RecipeCommand recipeCommand = new RecipeCommand();
         recipeCommand.setId(1L);
 
-        when(recipeToRecipeCommand.convert(any())).thenReturn(recipeCommand);
+        when(recipeMapper.recipeToRecipeCommand(any())).thenReturn(recipeCommand);
 
         RecipeCommand commandById = recipeService.findCommandById(1L);
 

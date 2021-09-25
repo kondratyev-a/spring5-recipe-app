@@ -3,13 +3,18 @@ package com.kondratyev.spring5recipeapp.converters;
 import com.kondratyev.spring5recipeapp.commands.IngredientCommand;
 import com.kondratyev.spring5recipeapp.commands.UnitOfMeasureCommand;
 import com.kondratyev.spring5recipeapp.domain.Ingredient;
-import org.junit.jupiter.api.BeforeEach;
+import com.kondratyev.spring5recipeapp.mappers.IngredientMapper;
+import com.kondratyev.spring5recipeapp.mappers.IngredientMapperImpl;
+import com.kondratyev.spring5recipeapp.mappers.UnitOfMeasureMapperImpl;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import java.math.BigDecimal;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@SpringBootTest(classes = {IngredientMapperImpl.class, UnitOfMeasureMapperImpl.class})
 public class IngredientCommandToIngredientTest {
 
     public static final BigDecimal AMOUNT = new BigDecimal("1");
@@ -17,21 +22,17 @@ public class IngredientCommandToIngredientTest {
     public static final Long ID_VALUE = 1L;
     public static final Long UOM_ID = 2L;
 
-    IngredientCommandToIngredient converter;
-
-    @BeforeEach
-    public void setUp() {
-        converter = new IngredientCommandToIngredient(new UnitOfMeasureCommandToUnitOfMeasure());
-    }
+    @Autowired
+    private IngredientMapper ingredientMapper;
 
     @Test
     public void testNullObject() {
-        assertNull(converter.convert(null));
+        assertNull(ingredientMapper.ingredientCommandToIngredient(null));
     }
 
     @Test
     public void testEmptyObject() {
-        assertNotNull(converter.convert(new IngredientCommand()));
+        assertNotNull(ingredientMapper.ingredientCommandToIngredient(new IngredientCommand()));
     }
 
     @Test
@@ -46,7 +47,7 @@ public class IngredientCommandToIngredientTest {
         command.setUom(unitOfMeasureCommand);
 
         //when
-        Ingredient ingredient = converter.convert(command);
+        Ingredient ingredient = ingredientMapper.ingredientCommandToIngredient(command);
 
         //then
         assertNotNull(ingredient);
@@ -64,11 +65,9 @@ public class IngredientCommandToIngredientTest {
         command.setId(ID_VALUE);
         command.setAmount(AMOUNT);
         command.setDescription(DESCRIPTION);
-        UnitOfMeasureCommand unitOfMeasureCommand = new UnitOfMeasureCommand();
-
 
         //when
-        Ingredient ingredient = converter.convert(command);
+        Ingredient ingredient = ingredientMapper.ingredientCommandToIngredient(command);
 
         //then
         assertNotNull(ingredient);

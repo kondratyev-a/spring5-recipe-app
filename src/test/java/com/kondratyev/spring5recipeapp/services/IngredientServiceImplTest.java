@@ -1,29 +1,30 @@
 package com.kondratyev.spring5recipeapp.services;
 
 import com.kondratyev.spring5recipeapp.commands.IngredientCommand;
-import com.kondratyev.spring5recipeapp.converters.IngredientCommandToIngredient;
-import com.kondratyev.spring5recipeapp.converters.IngredientToIngredientCommand;
-import com.kondratyev.spring5recipeapp.converters.UnitOfMeasureCommandToUnitOfMeasure;
-import com.kondratyev.spring5recipeapp.converters.UnitOfMeasureToUnitOfMeasureCommand;
 import com.kondratyev.spring5recipeapp.domain.Ingredient;
 import com.kondratyev.spring5recipeapp.domain.Recipe;
+import com.kondratyev.spring5recipeapp.mappers.IngredientMapper;
+import com.kondratyev.spring5recipeapp.mappers.IngredientMapperImpl;
+import com.kondratyev.spring5recipeapp.mappers.UnitOfMeasureMapperImpl;
 import com.kondratyev.spring5recipeapp.repositories.RecipeRepository;
 import com.kondratyev.spring5recipeapp.repositories.UnitOfMeasureRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
 
+@SpringBootTest(classes = {IngredientMapperImpl.class, UnitOfMeasureMapperImpl.class})
 public class IngredientServiceImplTest {
 
-    private final IngredientToIngredientCommand ingredientToIngredientCommand;
-    private final IngredientCommandToIngredient ingredientCommandToIngredient;
+    @Autowired
+    private IngredientMapper ingredientMapper;
 
     @Mock
     RecipeRepository recipeRepository;
@@ -33,22 +34,12 @@ public class IngredientServiceImplTest {
 
     IngredientService ingredientService;
 
-    //init converters
-    public IngredientServiceImplTest() {
-        this.ingredientToIngredientCommand = new IngredientToIngredientCommand(new UnitOfMeasureToUnitOfMeasureCommand());
-        this.ingredientCommandToIngredient = new IngredientCommandToIngredient(new UnitOfMeasureCommandToUnitOfMeasure());
-    }
-
     @BeforeEach
-    public void setUp() throws Exception {
+    public void setUp() {
         MockitoAnnotations.openMocks(this);
 
-        ingredientService = new IngredientServiceImpl(ingredientToIngredientCommand, ingredientCommandToIngredient,
+        ingredientService = new IngredientServiceImpl(ingredientMapper,
                 recipeRepository, unitOfMeasureRepository);
-    }
-
-    @Test
-    public void findByRecipeIdAndId() {
     }
 
     @Test

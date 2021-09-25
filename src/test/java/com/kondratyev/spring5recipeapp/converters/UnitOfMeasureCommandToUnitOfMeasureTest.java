@@ -2,8 +2,10 @@ package com.kondratyev.spring5recipeapp.converters;
 
 import com.kondratyev.spring5recipeapp.commands.UnitOfMeasureCommand;
 import com.kondratyev.spring5recipeapp.domain.UnitOfMeasure;
+import com.kondratyev.spring5recipeapp.mappers.UnitOfMeasureMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mapstruct.factory.Mappers;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -12,22 +14,21 @@ public class UnitOfMeasureCommandToUnitOfMeasureTest {
     public static final String DESCRIPTION = "description";
     public static final Long LONG_VALUE = 1L;
 
-    UnitOfMeasureCommandToUnitOfMeasure converter;
+    UnitOfMeasureMapper unitOfMeasureMapper;
 
     @BeforeEach
-    public void setUp() throws Exception {
-        converter = new UnitOfMeasureCommandToUnitOfMeasure();
-
+    public void setUp() {
+        unitOfMeasureMapper = Mappers.getMapper(UnitOfMeasureMapper.class);
     }
 
     @Test
     public void testNullParameter() {
-        assertNull(converter.convert(null));
+        assertNull(unitOfMeasureMapper.unitOfMeasureCommandToUnitOfMeasure(null));
     }
 
     @Test
     public void testEmptyObject() {
-        assertNotNull(converter.convert(new UnitOfMeasureCommand()));
+        assertNotNull(unitOfMeasureMapper.unitOfMeasureCommandToUnitOfMeasure(new UnitOfMeasureCommand()));
     }
 
     @Test
@@ -38,7 +39,7 @@ public class UnitOfMeasureCommandToUnitOfMeasureTest {
         command.setDescription(DESCRIPTION);
 
         //when
-        UnitOfMeasure uom = converter.convert(command);
+        UnitOfMeasure uom = unitOfMeasureMapper.unitOfMeasureCommandToUnitOfMeasure(command);
 
         //then
         assertNotNull(uom);

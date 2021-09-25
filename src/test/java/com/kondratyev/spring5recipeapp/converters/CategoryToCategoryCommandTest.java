@@ -2,8 +2,10 @@ package com.kondratyev.spring5recipeapp.converters;
 
 import com.kondratyev.spring5recipeapp.commands.CategoryCommand;
 import com.kondratyev.spring5recipeapp.domain.Category;
+import com.kondratyev.spring5recipeapp.mappers.CategoryMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mapstruct.factory.Mappers;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -11,21 +13,21 @@ public class CategoryToCategoryCommandTest {
 
     public static final Long ID_VALUE = 1L;
     public static final String DESCRIPTION = "description";
-    CategoryToCategoryCommand converter;
+    CategoryMapper categoryMapper;
 
     @BeforeEach
     public void setUp() {
-        converter = new CategoryToCategoryCommand();
+        categoryMapper = Mappers.getMapper(CategoryMapper.class);
     }
 
     @Test
     public void testNullObject() {
-        assertNull(converter.convert(null));
+        assertNull(categoryMapper.categoryToCategoryCommand(null));
     }
 
     @Test
     public void testEmptyObject() {
-        assertNotNull(converter.convert(new Category()));
+        assertNotNull(categoryMapper.categoryToCategoryCommand(new Category()));
     }
 
     @Test
@@ -36,7 +38,7 @@ public class CategoryToCategoryCommandTest {
         category.setDescription(DESCRIPTION);
 
         //when
-        CategoryCommand categoryCommand = converter.convert(category);
+        CategoryCommand categoryCommand = categoryMapper.categoryToCategoryCommand(category);
 
         //then
         assertEquals(ID_VALUE, categoryCommand.getId());

@@ -52,3 +52,4 @@ You can then access the application here: http://localhost:8080/
 - **Bootstrap 5** for HTML, CSS and JS templates
 - **Lombok** to reduce boilerplate code
 - **JUnit 5** and **Mockito** for unit and integration tests
+- **MapStruct** to easily convert entities to DTOs and vice versa

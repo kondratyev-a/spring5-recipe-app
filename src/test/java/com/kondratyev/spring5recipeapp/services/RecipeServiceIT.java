@@ -1,9 +1,8 @@
 package com.kondratyev.spring5recipeapp.services;
 
 import com.kondratyev.spring5recipeapp.commands.RecipeCommand;
-import com.kondratyev.spring5recipeapp.converters.RecipeCommandToRecipe;
-import com.kondratyev.spring5recipeapp.converters.RecipeToRecipeCommand;
 import com.kondratyev.spring5recipeapp.domain.Recipe;
+import com.kondratyev.spring5recipeapp.mappers.RecipeMapper;
 import com.kondratyev.spring5recipeapp.repositories.RecipeRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -27,10 +26,7 @@ public class RecipeServiceIT {
     RecipeRepository recipeRepository;
 
     @Autowired
-    RecipeCommandToRecipe recipeCommandToRecipe;
-
-    @Autowired
-    RecipeToRecipeCommand recipeToRecipeCommand;
+    RecipeMapper recipeMapper;
 
     @Transactional
     @Test
@@ -38,7 +34,7 @@ public class RecipeServiceIT {
         //given
         Iterable<Recipe> recipes = recipeRepository.findAll();
         Recipe testRecipe = recipes.iterator().next();
-        RecipeCommand testRecipeCommand = recipeToRecipeCommand.convert(testRecipe);
+        RecipeCommand testRecipeCommand = recipeMapper.recipeToRecipeCommand(testRecipe);
 
         //when
         testRecipeCommand.setDescription(NEW_DESCRIPTION);

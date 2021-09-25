@@ -13,7 +13,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
 
 public class ImageServiceImplTest {
@@ -24,7 +23,7 @@ public class ImageServiceImplTest {
     ImageService imageService;
 
     @BeforeEach
-    public void setUp() throws Exception {
+    public void setUp() {
         MockitoAnnotations.openMocks(this);
 
         imageService = new ImageServiceImpl(recipeRepository);
